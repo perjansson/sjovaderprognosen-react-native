@@ -1,27 +1,31 @@
 import fetch from 'isomorphic-fetch'
 
+export const FORECAST_REQUEST = 'FORECAST_REQUEST'
+export const FORECAST_RESPONSE_SUCCESS = 'FORECAST_RESPONSE_SUCCESS'
+export const FORECAST_RESPONSE_ERROR = 'FORECAST_RESPONSE_ERROR'
+
+const API_GET_FORECAST = 'http://sjovaderprognos.herokuapp.com/Sjovaderprognos?json'
+const EMPTY_FORECAST = 'Prognos saknas'
+
 export function fetchForecast () {
-  console.log('fetchForecast')
   return dispatch => {
-    console.log('dispatch request')
-    dispatch({ type: 'FORECAST_REQUEST' })
-    fetch(
-      'http://sjovaderprognos.herokuapp.com/Sjovaderprognos?json'
-    ).then(response => {
-      const ok = response.ok
+    dispatch({ type: FORECAST_REQUEST })
+
+    fetch(API_GET_FORECAST).then(response => {
       response.json().then(responseData => {
-        if (ok) {
+        if (response.ok) {
           dispatch({
-            type: 'FORECAST_RESPONSE_SUCCESS',
-            payload: responseData
+            type: FORECAST_RESPONSE_SUCCESS,
+            payload: responseData.filter(
+              f => f && f.forecast !== EMPTY_FORECAST
+            )
           })
         } else {
-          dispatch({ type: 'FORECAST_RESPONSE_ERROR', payload: response })
+          dispatch({ type: FORECAST_RESPONSE_ERROR, payload: response })
         }
       })
-    }, err => {
-      console.log('dispatch error', err)
-      dispatch({ type: 'FORECAST_RESPONSE_ERROR', payload: err })
+    }, error => {
+      dispatch({ type: FORECAST_RESPONSE_ERROR, payload: error })
     })
   }
 }

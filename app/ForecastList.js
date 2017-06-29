@@ -5,20 +5,23 @@ import ForecastListItem from './ForecastListItem'
 
 class ForecastList extends React.Component {
   componentWillMount () {
-    this.state = {
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
-      }),
-      loaded: false
-    }
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    })
+
+    this.state = { dataSource }
+
+    this.updateStateWithForecasts(this.props.forecasts)
   }
 
   componentWillReceiveProps (nextProps) {
-    const { forecasts } = nextProps
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(forecasts),
-      loaded: true
-    })
+    this.updateStateWithForecasts(nextProps.forecasts)
+  }
+
+  updateStateWithForecasts (forecasts) {
+    this.setState(state => ({
+      dataSource: state.dataSource.cloneWithRows(forecasts)
+    }))
   }
 
   render () {

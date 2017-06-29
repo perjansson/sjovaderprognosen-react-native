@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import * as actionCreators from './actions'
 
+import { ActivityIndicator } from 'react-native'
 import ForecastList from './ForecastList'
 
 class ForecastListContainer extends React.Component {
@@ -11,9 +12,15 @@ class ForecastListContainer extends React.Component {
   }
 
   render () {
-    const { forecasts } = this.props
+    const { isLoading, data } = this.props.forecasts
 
-    return <ForecastList forecasts={forecasts} />
+    return isLoading
+      ? <ActivityIndicator
+        size='large'
+        animating
+        style={{ flex: 1, marginTop: -100 }}
+      />
+      : <ForecastList forecasts={data} />
   }
 }
 

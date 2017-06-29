@@ -8,6 +8,8 @@ export default Header
 const styles = StyleSheet.create({
   header: {
     fontSize: 24,
-    fontFamily: 'HelveticaNeue-Light'
+    fontFamily: 'HelveticaNeue-Light',
+    fontWeight: '500',
+    marginBottom: 10
   }
 })
