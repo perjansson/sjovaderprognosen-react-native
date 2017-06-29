@@ -3,14 +3,14 @@ import { StyleSheet, View } from 'react-native'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import thunkMiddleware from 'redux-thunk'
+import thunk from 'redux-thunk'
 
 import reducer from './app/reducer'
 
 import Header from './app/Header'
 import ForecastListContainer from './app/ForecastListContainer'
 
-const store = createStore(reducer)
+const store = createStore(reducer, applyMiddleware(thunk))
 
 export default class App extends React.Component {
   render () {

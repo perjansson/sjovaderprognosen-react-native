@@ -4,12 +4,21 @@ import { StyleSheet, ListView } from 'react-native'
 import ForecastListItem from './ForecastListItem'
 
 class ForecastList extends React.Component {
-  constructor (props) {
-    super()
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
+  componentWillMount () {
+    this.state = {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2
+      }),
+      loaded: false
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { forecasts } = nextProps
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(forecasts),
+      loaded: true
     })
-    this.state = { dataSource: ds.cloneWithRows(props.forecasts) }
   }
 
   render () {
@@ -26,9 +35,5 @@ class ForecastList extends React.Component {
 export default ForecastList
 
 const styles = StyleSheet.create({
-  forecastList: {
-    flex: 1,
-    alignSelf: 'stretch',
-    paddingTop: 25
-  }
+  forecastList: { flex: 1, alignSelf: 'stretch', paddingTop: 25 }
 })

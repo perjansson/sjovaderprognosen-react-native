@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const ForecastListItem = ({ name }) => {
+const ForecastListItem = ({ areaName }) => {
   return (
     <View style={styles.forecastWrapper}>
-      <Text style={styles.forecast}>{name}</Text>
+      <Text style={styles.forecast}>{areaName}</Text>
     </View>
   )
 }
